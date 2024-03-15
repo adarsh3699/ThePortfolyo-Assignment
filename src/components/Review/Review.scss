@@ -41,6 +41,10 @@
       margin-bottom: -6px;
       position: relative;
       z-index: 1;
+      -webkit-line-clamp: 7;
+      -webkit-box-orient: vertical;
+      display: -webkit-box;
+      overflow: hidden;
     }
 
     .st-quote {

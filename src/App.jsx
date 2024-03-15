@@ -1,5 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+
+import { getData } from './Data';
 import Layout from './components/Layout/Layout';
 import Home from './pages/Home';
 import Home2 from './pages/Home2';
@@ -12,6 +14,7 @@ import 'aos/dist/aos.css';
 import Layout2 from './components/Layout/Layout2';
 
 function App() {
+	const [isLoading, setIsLoading] = useState(true);
 	const [data, setData] = useState({});
 	useEffect(() => {
 		Aos.init({ once: true });
@@ -25,11 +28,25 @@ function App() {
 				);
 				const data = await response.json();
 				if (data.success) {
-					setData(data);
-					console.log(data);
+					const { about, email, services, skills, timeline, projects, testimonials, social_handles } =
+						data.user;
+
+					const DataTemplate = getData(
+						about,
+						email,
+						services,
+						skills,
+						timeline,
+						projects,
+						testimonials,
+						social_handles
+					);
+					setData(DataTemplate);
 				}
 			} catch (error) {
 				console.error('There was an error:', error);
+			} finally {
+				setIsLoading(false);
 			}
 		})();
 	}, []);
@@ -37,15 +54,15 @@ function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path="/" element={<Layout />}>
-					<Route index element={<Home />} />
-					<Route path="home-v3" element={<Home3 />} />
-					<Route path="home-v4" element={<Home4 />} />
+				<Route path="/" element={<Layout isLoading={isLoading} />}>
+					<Route index element={<Home data={data} />} />
+					<Route path="home-v3" element={<Home3 data={data} />} />
+					<Route path="home-v4" element={<Home4 data={data} />} />
 					<Route path="*" element={<Page404 />} />
 					<Route path="blog/blog-details" element={<BlogDetails />} />
 				</Route>
-				<Route path="/home-v2" element={<Layout2 />}>
-					<Route index element={<Home2 />} />
+				<Route path="/home-v2" element={<Layout2 isLoading={isLoading} />}>
+					<Route index element={<Home2 data={data} />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

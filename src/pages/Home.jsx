@@ -1,4 +1,3 @@
-import data from '../Data.json';
 import About from '../components/About/About';
 import Iconbox from '../components/Iconbox/Iconbox';
 import Skill from '../components/Skill/Skill';
@@ -9,7 +8,7 @@ import Contact from '../components/Contact/Contact';
 import PortfolioSection from '../components/Protfolio/PortfolioSection';
 import Hero from '../components/Hero/Hero';
 
-const Home = () => {
+const Home = ({ data }) => {
 	const {
 		heroData,
 		aboutData,
