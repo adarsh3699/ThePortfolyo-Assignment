@@ -127,6 +127,8 @@ function getData(about, email, services, skills, timeline, projects, testimonial
 						imgLinkLg: project.image.url,
 						title: project.title,
 						subTitle: project.description,
+						liveurl: project.liveurl,
+						githuburl: project.githuburl,
 						effect: 'fade-up',
 						duration: '500',
 						delay: (index + 2) * 100,
