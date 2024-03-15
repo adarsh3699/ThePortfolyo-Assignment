@@ -1,11 +1,12 @@
 @import "../../sass/default/variable";
 .st-iconbox.st-style1 {
   text-align: center;
-  padding: 50px 30px;
+  padding: 50px 30px 10px 30px;
   border-radius: 3px;
   transition: all 0.4s ease;
   border: 1px solid $base-color4;
   background-color: $dark-color4;
+  min-height: 100%;
   img {
     width: 52px;
     filter: grayscale(1);
@@ -57,5 +58,12 @@
 
   .st-iconbox-text {
     margin-bottom: -6px;
+  }
+  .st-iconbox-charge{
+    font-size: 25px;
+    font-weight: 400;
+    color: $base-color1;
+    font-weight: 400;
+    margin-top: 20px;
   }
 }

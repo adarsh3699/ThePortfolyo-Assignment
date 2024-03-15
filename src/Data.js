@@ -1,6 +1,18 @@
-function getData(about, email, services, skills, timeline, projects, testimonials, social_handles) {
+function getData(about, email, services, skills, timeline, projects, testimonials, social_handles, blogs) {
 	const { name, title, subTitle, description, avatar, address, phoneNumber } = about;
 	const [firstName, lastName] = name?.split(' ');
+	const education = [];
+	const experience = [];
+
+	timeline.forEach((entry) => {
+		if (entry.enabled) {
+			if (entry.forEducation) {
+				education.push(entry);
+			} else {
+				experience.push(entry);
+			}
+		}
+	});
 
 	function formatDateRange(startDate, endDate) {
 		const startYear = new Date(startDate).getFullYear();
@@ -79,40 +91,47 @@ function getData(about, email, services, skills, timeline, projects, testimonial
 		},
 		serviceData: {
 			services: services.map((service, index) => {
-				return {
-					imgLink: service.image.url,
-					title: service.name,
-					text: service.desc,
-					effect: 'zoom-out-up',
-					duration: '500',
-					delay: (index + 2) * 100,
-				};
+				return (
+					service.enabled && {
+						imgLink: service.image.url,
+						title: service.name,
+						text: service.desc,
+						charge: service.charge,
+						effect: 'zoom-out-up',
+						duration: '500',
+						delay: (index + 2) * 100,
+					}
+				);
 			}),
 		},
 		skillData: {
 			title: 'All the skills that I have in that field of work are mentioned.',
 			text: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.',
 			skills: skills.map((skill, index) => {
-				return {
-					title: skill.name,
-					progress: skill.percentage + '%',
-					effect: 'fade-up',
-					duration: '500',
-					delay: (index + 2) * 100,
-				};
+				return (
+					skill.enabled && {
+						title: skill.name,
+						progress: skill.percentage + '%',
+						effect: 'fade-up',
+						duration: '500',
+						delay: (index + 2) * 100,
+					}
+				);
 			}),
 		},
 		portfolioData: {
 			portfolioItems: projects.map((project, index) => {
-				return {
-					imgLink: project.image.url,
-					imgLinkLg: project.image.url,
-					title: project.title,
-					subTitle: project.description,
-					effect: 'fade-up',
-					duration: '500',
-					delay: (index + 2) * 100,
-				};
+				return (
+					project.enabled && {
+						imgLink: project.image.url,
+						imgLinkLg: project.image.url,
+						title: project.title,
+						subTitle: project.description,
+						effect: 'fade-up',
+						duration: '500',
+						delay: (index + 2) * 100,
+					}
+				);
 			}),
 		},
 		blogData: {
@@ -140,50 +159,24 @@ function getData(about, email, services, skills, timeline, projects, testimonial
 					},
 				],
 			},
-			informations: [
-				{
-					imgLink: './images/blog/blog1.jpg',
-					designation: 'Admin',
-					date: '07-03-2023',
-					title: 'latest trends in Graphic design according to you?',
-					href: '/blog/blog-details',
-				},
-				{
-					imgLink: './images/blog/blog2.jpg',
-					designation: 'Admin',
-					date: '07-03-2023',
-					title: 'What are the latest trends in Graphic design according to you?',
-					href: '/blog/blog-details',
-				},
-				{
-					imgLink: './images/blog/blog3.jpg',
-					designation: 'Admin',
-					date: '07-03-2023',
-					title: 'Trends in Graphic design according to you?',
-					href: '/blog/blog-details',
-				},
-				{
-					imgLink: './images/blog/blog1.jpg',
-					designation: 'Admin',
-					date: '07-03-2023',
-					title: 'What are the latest trends in Graphic design according to you?',
-					href: '/blog/blog-details',
-				},
-				{
-					imgLink: './images/blog/blog2.jpg',
-					designation: 'Admin',
-					date: '07-03-2023',
-					title: 'The latest trends in Graphic design according to you?',
-					href: '/blog/blog-details',
-				},
-				{
-					imgLink: './images/blog/blog3.jpg',
-					designation: 'Admin',
-					date: '07-03-2023',
-					title: 'What are the latest trends in Graphic design according to you?',
-					href: '/blog/blog-details',
-				},
-			],
+			informations: blogs?.map((blog) => {
+				return (
+					blog.enabled && {
+						imgLink: blog.image.url,
+						designation: 'Admin',
+						date: blog.createdAt,
+						title: blog.title,
+						href: '/blog/blog-details',
+					}
+				);
+			}),
+			// 	{
+			// 		imgLink: './images/blog/blog1.jpg',
+			// 		designation: 'Admin',
+			// 		date: '07-03-2023',
+			// 		title: 'latest trends in Graphic design according to you?',
+			// 		href: '/blog/blog-details',
+			// 	}
 		},
 		reviewData: {
 			useFor: 'review',
@@ -210,21 +203,20 @@ function getData(about, email, services, skills, timeline, projects, testimonial
 					},
 				],
 			},
-			informations: testimonials.map((testimonial, index) => {
-				return {
-					imgLink: testimonial.image.url,
-					title: testimonial.name,
-					designation: testimonial.position,
-					text: testimonial.review,
-					// testimonial.review?.length > 200
-					// 	? testimonial?.review?.slice(0, 200 - 3) + '...'
-					// 	: testimonial?.review,
-				};
+			informations: testimonials.map((testimonial) => {
+				return (
+					testimonial.enabled && {
+						imgLink: testimonial.image.url,
+						title: testimonial.name,
+						designation: testimonial.position,
+						text: testimonial.review,
+					}
+				);
 			}),
 		},
 		resumeData: {
 			experienceTitle: 'Experience',
-			experience: timeline.map((exp, index) => {
+			experience: experience.map((exp) => {
 				return {
 					title: exp.jobTitle,
 					duration: formatDateRange(exp.startDate, exp.endDate),
@@ -233,26 +225,14 @@ function getData(about, email, services, skills, timeline, projects, testimonial
 				};
 			}),
 			educationTitle: 'Education',
-			education: [
-				{
-					title: 'Master of Computer Science',
-					duration: '2015 - 2016',
-					subTitle: 'University of XYZ',
-					text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ligula nulla, tincidunt id faucibus sed, suscipit feugiat turpis.',
-				},
-				{
-					title: 'Bachelor of Computer Science',
-					duration: '2010 - 2014',
-					subTitle: 'University of ABC',
-					text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ligula nulla, tincidunt id faucibus sed, suscipit feugiat turpis.',
-				},
-				{
-					title: 'Diploma in Computer Science',
-					duration: '2006 - 2010',
-					subTitle: 'XYZ Institution',
-					text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ligula nulla, tincidunt id faucibus sed, suscipit feugiat turpis.',
-				},
-			],
+			education: education.map((educ) => {
+				return {
+					title: educ.jobTitle,
+					duration: formatDateRange(educ.startDate, educ.endDate),
+					subTitle: educ.jobLocation,
+					text: educ.summary,
+				};
+			}),
 		},
 		contactData: {
 			formTitle: 'Just say Hello',
@@ -261,17 +241,21 @@ function getData(about, email, services, skills, timeline, projects, testimonial
 			text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ligula nulla tincidunt id faucibus sed suscipit feugiat.',
 		},
 		socialData: social_handles.map((social, index) => {
-			return {
-				icon: social.platform?.toLowerCase(),
-				title: social.platform,
-				link: social.url,
-			};
+			return (
+				social.enabled && {
+					icon: social.platform?.toLowerCase(),
+					title: social.platform,
+					link: social.url,
+				}
+			);
 		}),
 		socialData2: social_handles.map((social, index) => {
-			return {
-				icon: social.platform?.toLowerCase(),
-				link: social.url,
-			};
+			return (
+				social.enabled && {
+					icon: social.platform?.toLowerCase(),
+					link: social.url,
+				}
+			);
 		}),
 	};
 }

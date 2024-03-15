@@ -79,10 +79,13 @@ const Contact = ({ data, socialData }) => {
 									</span>
 								</div>
 							</div>
-							<div className="st-social-info">
-								<div className="st-social-text">{subTitle}</div>
-								<SocialLinks data={socialData} />
-							</div>
+
+							{socialData?.length && (
+								<div className="st-social-info">
+									<div className="st-social-text">{subTitle}</div>
+									<SocialLinks data={socialData} />
+								</div>
+							)}
 						</div>
 					</div>
 				</div>
