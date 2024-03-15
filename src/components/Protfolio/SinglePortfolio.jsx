@@ -8,7 +8,10 @@ const SinglePortfolio = ({ data, getData }) => {
 		<div className="col-lg-4 col-md-6" data-aos={effect} data-aos-duration={duration} data-aos-delay={delay}>
 			<div className="st-portfolio-single st-style1">
 				<div className="st-portfolio-item">
-					<div className="st-portfolio st-zoom" onClick={() => getData(imgLinkLg, title, subTitle)}>
+					<div
+						className="st-portfolio st-zoom"
+						onClick={() => getData(imgLinkLg, title, subTitle, liveurl, githuburl)}
+					>
 						<div className="st-portfolio-img st-zoom-in">
 							<img src={imgLink} alt="portfolio" />
 						</div>

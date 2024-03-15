@@ -10,8 +10,8 @@ const PortfolioSection = ({ data }) => {
 	const [modal, setModal] = useState(false);
 	const [tempData, setTempData] = useState([]);
 
-	const getData = (imgLink, title, subTitle) => {
-		let tempData = [imgLink, title, subTitle];
+	const getData = (imgLink, title, subTitle, liveurl, githuburl) => {
+		let tempData = [imgLink, title, subTitle, liveurl, githuburl];
 		setTempData((item) => [1, ...tempData]);
 		setModal(true);
 	};
@@ -62,7 +62,14 @@ const PortfolioSection = ({ data }) => {
 					<div className="st-height-b100 st-height-lg-b80"></div>
 				</section>
 				{modal === true ? (
-					<Modal img={tempData[1]} title={tempData[2]} subTitle={tempData[3]} modalClose={modalClose} />
+					<Modal
+						img={tempData[1]}
+						title={tempData[2]}
+						subTitle={tempData[3]}
+						liveurl={tempData[4]}
+						githuburl={tempData[5]}
+						modalClose={modalClose}
+					/>
 				) : (
 					''
 				)}

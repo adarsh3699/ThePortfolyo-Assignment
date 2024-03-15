@@ -9,3 +9,14 @@
   width: 100%;
   margin-bottom: 20px;
 }
+
+.modal-btns{ 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+
+  a {
+      min-width: calc(50% - 15px) !important;
+  }
+}
